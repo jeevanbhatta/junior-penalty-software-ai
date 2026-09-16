@@ -1,0 +1,394 @@
+<title>Is There a Junior Penalty in Software?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+  :root {
+    --ground: #f5f7f6;
+    --plate: #fcfcfb;
+    --ink: #14191d;
+    --ink-2: #4f585f;
+    --ink-3: #6f797f;
+    --rule: #d5dbd8;
+    --rule-strong: #9aa4a0;
+    --accent: #1f6fd1;
+    --accent-soft: #e2ecf9;
+    --counter: #a9491a;
+    --counter-soft: #f7e6dc;
+    --mixed: #5d6150;
+    --mixed-soft: #e8e9df;
+    --code-bg: #e9eeeb;
+    --serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+    --sans: "IBM Plex Sans Condensed", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #111416; --plate: #fcfcfb; --ink: #e6eae8; --ink-2: #a9b2b7; --ink-3: #87919a;
+      --rule: #2a3034; --rule-strong: #4a5358; --accent: #6ea8f0; --accent-soft: #15263b;
+      --counter: #ef8d5e; --counter-soft: #35221a; --mixed: #c1c4ad; --mixed-soft: #26281f;
+      --code-bg: #1b2023; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #111416; --plate: #fcfcfb; --ink: #e6eae8; --ink-2: #a9b2b7; --ink-3: #87919a;
+    --rule: #2a3034; --rule-strong: #4a5358; --accent: #6ea8f0; --accent-soft: #15263b;
+    --counter: #ef8d5e; --counter-soft: #35221a; --mixed: #c1c4ad; --mixed-soft: #26281f;
+    --code-bg: #1b2023; color-scheme: dark;
+  }
+
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--ground); color: var(--ink);
+    font: 400 1.0625rem/1.62 var(--serif);
+    margin: 0; padding-inline: clamp(16px, 4vw, 40px); padding-block: 0 4rem;
+  }
+  a { color: var(--accent); text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 2px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+  article { max-width: 62rem; margin-inline: auto; }
+  article > * { max-width: 42rem; margin-inline: auto; }
+  article > .wide { max-width: 62rem; }
+
+  h1, h2, h3 { font-family: var(--sans); color: var(--ink); text-wrap: balance; line-height: 1.15; }
+  h2 { font-size: 1.7rem; font-weight: 600; margin-block: 3.25rem 0.9rem; padding-top: 1.1rem; border-top: 1px solid var(--rule-strong);
+       display: flex; gap: 0.75rem; align-items: baseline; }
+  h2 .no { font: 500 0.95rem var(--mono); color: var(--ink-3); }
+  h3 { font-size: 1.2rem; font-weight: 600; margin-block: 2rem 0.5rem; }
+  p { margin-block: 0 1rem; }
+  code, .mono { font-family: var(--mono); font-size: 0.86em; }
+  code { background: var(--code-bg); padding: 0.05em 0.3em; border-radius: 3px; }
+
+  /* masthead */
+  .mast { padding-block: 3.5rem 1.5rem; }
+  .eyebrow { font: 500 0.75rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 1rem; }
+  h1 { font-size: clamp(2.3rem, 5.4vw, 3.6rem); font-weight: 700; letter-spacing: -0.01em; margin: 0 0 1rem; }
+  .dek { font-size: 1.3rem; line-height: 1.45; color: var(--ink-2); font-style: italic; margin: 0 0 1.75rem; }
+  .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 0.9rem 1.5rem;
+          border-block: 1px solid var(--rule); padding-block: 0.9rem; margin: 0; }
+  .meta div { display: grid; gap: 0.15rem; }
+  .meta dt { font: 500 0.7rem var(--mono); letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); }
+  .meta dd { margin: 0; font: 400 0.92rem/1.4 var(--sans); color: var(--ink); }
+
+  /* bottom line */
+  .bottom { border-top: 3px solid var(--ink); padding-top: 1rem; margin-block: 1rem 2rem; }
+  .label { font: 600 0.78rem var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); margin-block: 0 0.6rem; }
+  .bottom p { font-size: 1.12rem; }
+
+  /* ledger */
+  .tablewrap { overflow-x: auto; margin-block: 0.5rem 1rem; }
+  table { border-collapse: collapse; width: 100%; font: 400 0.9rem/1.45 var(--sans); }
+  th { text-align: left; font: 600 0.72rem var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3);
+       border-bottom: 1px solid var(--rule-strong); padding: 0.5rem 0.75rem 0.5rem 0; vertical-align: bottom; }
+  td { border-bottom: 1px solid var(--rule); padding: 0.7rem 0.75rem 0.7rem 0; vertical-align: top; }
+  td.src { font-weight: 600; min-width: 9rem; }
+  td.src span { display: block; font: 400 0.75rem var(--mono); color: var(--ink-3); margin-top: 0.15rem; }
+  td.num, .tabnum { font-variant-numeric: tabular-nums; }
+  .ledger td:nth-child(3) { min-width: 16rem; }
+  .verdict { display: inline-block; white-space: nowrap; font: 600 0.72rem var(--sans); letter-spacing: 0.05em; text-transform: uppercase;
+             padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid currentColor; }
+  .v-yes { color: var(--accent); background: var(--accent-soft); }
+  .v-no { color: var(--counter); background: var(--counter-soft); }
+  .v-mixed { color: var(--mixed); background: var(--mixed-soft); }
+  .note { font: 400 0.84rem/1.5 var(--sans); color: var(--ink-2); }
+
+  /* figures */
+  figure.plate { margin-block: 1.5rem 2rem; }
+  figure.plate .frame { background: var(--plate); border: 1px solid var(--rule); border-radius: 4px; padding: clamp(6px, 1.5vw, 14px); }
+  figure.plate img { display: block; width: 100%; height: auto; max-width: 100%; }
+  figure.plate.half { max-width: 50rem; }
+  figcaption { font: 400 0.88rem/1.5 var(--sans); color: var(--ink-2); margin-top: 0.6rem; max-width: 46rem; }
+  figcaption b { font-family: var(--mono); font-weight: 500; font-size: 0.8rem; color: var(--ink); margin-right: 0.35rem; letter-spacing: 0.03em; }
+  .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); gap: 1.25rem; }
+
+  /* lit review */
+  .litgroup { margin-block: 1rem 1.5rem; }
+  .lit { display: grid; gap: 0.85rem; padding: 0; margin-block: 0 1rem; list-style: none; }
+  .lit li { padding-left: 1rem; border-left: 1px solid var(--rule-strong); }
+  .lit .who { font-family: var(--sans); font-weight: 600; }
+
+  /* data table */
+  .datatable td:first-child { font-weight: 600; white-space: nowrap; }
+
+  ol.refs { padding-left: 0; list-style: none; display: grid; gap: 0.55rem; font-size: 0.93rem; line-height: 1.5; }
+  ol.refs li { padding-left: 1.5rem; text-indent: -1.5rem; }
+  ol.refs li:target { background: var(--accent-soft); }
+  .refhead { font: 600 0.78rem var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-block: 1.5rem 0.5rem; }
+  ul.tight { padding-left: 1.2rem; margin-block: 0 1rem; }
+  ul.tight li { margin-block: 0.35rem; }
+  pre { background: var(--code-bg); padding: 0.9rem 1rem; border-radius: 4px; overflow-x: auto; font: 400 0.82rem/1.55 var(--mono); }
+  footer { margin-top: 3rem; border-top: 1px solid var(--rule); padding-top: 1rem; font: 400 0.82rem var(--sans); color: var(--ink-3); }
+</style>
+
+<article>
+  <header class="mast">
+    <p class="eyebrow">Working report · Tech Job Replacement project · 13 September 2026</p>
+    <h1>Is there a junior penalty in software?</h1>
+    <p class="dek">What public data through August 2026 say about generative AI and early-career developers, and what they cannot yet say.</p>
+    <dl class="meta">
+      <div><dt>Hypothesis</dt><dd>Since ChatGPT (30 Nov 2022), AI has cut demand for junior developers relative to seniors</dd></div>
+      <div><dt>Data vintage</dt><dd>Indeed to 4 Sep 2026 · CPS and CES to Aug 2026 · OEWS to May 2025</dd></div>
+      <div><dt>Sources</dt><dd>8 public datasets, each cited in <a href="#data">§3</a></dd></div>
+      <div><dt>Code</dt><dd><code>notebooks/01–05</code>, <code>src/fetch_data.py</code></dd></div>
+    </dl>
+  </header>
+
+  <section class="bottom" aria-labelledby="bl">
+    <p class="label" id="bl">Bottom line</p>
+    <p>Demand for software workers, as measured by job postings, fell further than for any other occupation after late 2022, and employers now ask for more experience. But most of the fall from the 2022 peak came before ChatGPT, during the Fed's rate hikes and the unwinding of the 2021–22 hiring boom.</p>
+    <p>The workforce itself tells a different story so far. In representative government data, the employed developer workforce is still growing, has not aged relative to other occupations, and young developers' pay has not fallen behind. Only an opt-in survey shows a widening junior–senior pay gap. The evidence supports a <em>hiring</em> squeeze on juniors; it does not yet show an <em>employment</em> or <em>wage</em> penalty.</p>
+  </section>
+
+  <div class="wide">
+    <p class="label">Evidence ledger: each source against the hypothesis</p>
+    <div class="tablewrap">
+      <table class="ledger">
+        <thead><tr><th>Source</th><th>What it measures</th><th>Finding</th><th>Reads as</th></tr></thead>
+        <tbody>
+          <tr><td class="src">Indeed postings<span>FRED IHLIDXUSTP*</span></td><td>Posting volume, 47 occupations</td>
+              <td>Software −54% from Sep–Nov 2022 to Jun–Aug 2026, worst of 41 occupational categories. DiD −0.59 log points, rank 1 of 47. But 58% of the fall from the Feb 2022 peak predates ChatGPT.</td>
+              <td><span class="verdict v-mixed">Consistent, confounded</span></td></tr>
+          <tr><td class="src">Indeed Hiring Lab<span>published analyses</span></td><td>Experience asked for in postings</td>
+              <td>Tech postings requiring 5+ years rose from 37% to 42% (Q2 2022 to Q2 2025). Entry-level roles were 4.5% of software postings in Q1 2026.</td>
+              <td><span class="verdict v-yes">Consistent</span></td></tr>
+          <tr><td class="src">BLS OEWS<span>SOC 15-1252, 15-1256</span></td><td>Employment and wage percentiles</td>
+              <td>Software developer and QA employment +8.3% (May 2022 to May 2025). P10 pay +15.7% vs P90 +8.4%, so the distribution compressed.</td>
+              <td><span class="verdict v-no">Not consistent</span></td></tr>
+          <tr><td class="src">OEWS × exposure<span>706 occupations</span></td><td>Do GPT-exposed jobs shrink?</td>
+              <td>−1.7% employment per SD of exposure by 2025, on top of a pre-trend; zero with the Felten et al. measure.</td>
+              <td><span class="verdict v-mixed">Not robust</span></td></tr>
+          <tr><td class="src">CPS microdata<span>codes 1021 + 1022</span></td><td>Age mix of employed developers</td>
+              <td>22–25 share 8.14% (2021–22) vs 8.32% (2023–26), rank 102 of 222 occupations. FE −0.04 pp (SE 0.10).</td>
+              <td><span class="verdict v-no">Not consistent</span></td></tr>
+          <tr><td class="src">CPS earnings<span>outgoing rotation</span></td><td>Young vs prime-age median pay</td>
+              <td>22–25 / 31–40 ratio 0.69 in 2022, 0.76 in 2026.</td>
+              <td><span class="verdict v-no">Not consistent</span></td></tr>
+          <tr><td class="src">Stack Overflow survey<span>US, 2021–2025</span></td><td>Self-reported pay by experience</td>
+              <td>Junior (0–2 yrs) vs senior (10+ yrs) gap widened 5–13% after 2022; no pre-trend.</td>
+              <td><span class="verdict v-yes">Consistent, selection-prone</span></td></tr>
+          <tr><td class="src">NY Fed recent grads<span>CPS, ages 22–27</span></td><td>Unemployment vs all workers</td>
+              <td>Gap +0.5 pp (2022) to +1.5 pp (2026). CS and computer engineering majors rank 4th and 2nd of 74, but the trend began in 2018–19.</td>
+              <td><span class="verdict v-mixed">Consistent, not specific</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">"Consistent" means the pattern is what a junior penalty predicts. No source here isolates AI as the cause.</p>
+  </div>
+
+  <h2 id="q"><span class="no">1</span>The question</h2>
+  <p>The task-based framework treats a technology as something that takes over specific tasks, not whole jobs (<a href="#ref-acemoglu2022">Acemoglu &amp; Restrepo 2022</a>, <a href="#ref-acemoglu2024">2024</a>). If coding assistants take over the routine tasks that junior developers are hired to do, a junior penalty should appear in three places, in roughly this order:</p>
+  <ul class="tight">
+    <li><strong>Flows:</strong> fewer entry-level postings and hires.</li>
+    <li><strong>Stocks:</strong> a smaller, older employed workforce.</li>
+    <li><strong>Prices:</strong> juniors' pay falling relative to seniors'.</li>
+  </ul>
+  <p>This report checks all three with public data. It replaces an earlier draft whose results came from a simulated dataset (see <a href="#changes">§7</a>).</p>
+
+  <h2 id="lit"><span class="no">2</span>Literature review</h2>
+  <p>Every paper below was checked against its publisher, SSRN, NBER, arXiv, or author page for this report. Where a paper's numbers are quoted, they come from its abstract or summary page.</p>
+
+  <h3>2.1 Tasks, automation and exposure</h3>
+  <ul class="lit">
+    <li><span class="who">Autor, Levy &amp; Murnane (2003)</span> argue that computer capital substitutes for workers in cognitive and manual tasks that follow explicit rules, and complements workers in non-routine problem-solving and complex communication. <a href="#ref-autor2003">[1]</a></li>
+    <li><span class="who">Acemoglu &amp; Autor (2011)</span> set out the "canonical" two-skill model, in which technology is factor-augmenting, as the organizing framework for returns to skill. They also mark its limits, which motivate task-based models. <a href="#ref-acemoglu2011">[2]</a></li>
+    <li><span class="who">Acemoglu &amp; Restrepo (2022)</span> find that 50–70% of changes in the US wage structure over four decades are accounted for by relative wage declines among worker groups specialized in routine tasks, in industries undergoing rapid automation. <a href="#ref-acemoglu2022">[3]</a></li>
+    <li><span class="who">Acemoglu &amp; Restrepo (2024)</span> review the framework. Automation always reduces the labour share and may depress wages and employment; new labour-intensive tasks can reinstate labour. <a href="#ref-acemoglu2024">[4]</a></li>
+    <li><span class="who">Webb (2019)</span> measures exposure from the textual overlap between patents and job-task descriptions. Occupations highly exposed to earlier automation technologies saw employment and wage declines, and he projects that AI will reduce 90:10 wage inequality. <a href="#ref-webb2019">[5]</a></li>
+    <li><span class="who">Felten, Raj &amp; Seamans (2021, 2023)</span> build the AI Occupational Exposure (AIOE) index, then extend it to language modeling. The most exposed occupations include telemarketers and several post-secondary teaching fields; the most exposed industries are legal services and securities. <a href="#ref-felten2021">[6]</a> <a href="#ref-felten2023">[7]</a></li>
+    <li><span class="who">Eloundou, Manning, Mishkin &amp; Rock (2024)</span> estimate that about 1.8% of jobs could have over half their tasks affected by LLMs with simple interfaces. With complementary software, the figure rises to just over 46%. <a href="#ref-eloundou2024">[8]</a></li>
+    <li><span class="who">Handa et al. (2025)</span> observe real Claude usage: about 36% of occupations use AI for at least a quarter of their tasks, and 57% of usage looks like augmentation versus 43% automation. <a href="#ref-handa2025">[9]</a></li>
+  </ul>
+  <p>Exposure is a measure of what AI <em>could</em> do to a job, not what it has done. This report uses the Eloundou et al. and Felten et al. scores as treatment intensities and checks whether results survive swapping one for the other.</p>
+
+  <h3>2.2 Productivity experiments: juniors gain most</h3>
+  <ul class="lit">
+    <li><span class="who">Peng, Kalliamvakou, Cihon &amp; Demirer (2023):</span> in a controlled trial, developers with GitHub Copilot finished an HTTP-server task 55.8% faster. <a href="#ref-peng2023">[10]</a></li>
+    <li><span class="who">Cui, Demirer, Jaffe, Musolff, Peng &amp; Salz (2025):</span> field experiments at Microsoft, Accenture and a Fortune 100 firm with 4,867 developers found 26.08% more completed tasks. Less experienced developers had higher adoption and larger gains. <a href="#ref-cui2025">[11]</a></li>
+    <li><span class="who">Brynjolfsson, Li &amp; Raymond (2025):</span> among 5,179 customer-support agents, an AI assistant raised issues resolved per hour by 14% on average and by 34% for novice and low-skilled workers, with minimal impact on experienced ones. <a href="#ref-brynjolfsson2025gen">[12]</a></li>
+    <li><span class="who">Noy &amp; Zhang (2023):</span> among 453 college-educated professionals doing writing tasks, ChatGPT cut time by 40% and raised quality by 18%, compressing differences between workers. <a href="#ref-noy2023">[13]</a></li>
+    <li><span class="who">Dell'Acqua et al. (2023):</span> among 758 knowledge workers at BCG, GPT-4 users completed 12.2% more tasks, 25.1% faster, with significantly improved quality on tasks inside the "jagged frontier". On a task chosen to sit outside it, AI users were 19% <em>less</em> likely to produce a correct solution. <a href="#ref-dellacqua2023">[14]</a></li>
+  </ul>
+  <p>The pattern matters for this question: tools that help juniors most could make juniors <em>more</em> valuable, or let seniors absorb junior work. The experiments cannot say which; labor-market data has to.</p>
+
+  <h3>2.3 Labor-market evidence so far</h3>
+  <p class="label">Studies that find early-career effects</p>
+  <ul class="lit">
+    <li><span class="who">Brynjolfsson, Chandar &amp; Chen (2025, revised Aug 2026)</span> use ADP payroll data and find no economy-wide displacement. But employment of 22–25-year-olds in AI-exposed occupations is 19% below where it would be had it kept pace with less-exposed peers; the gap has widened since August 2025 and runs mainly through reduced hiring, not separations. Adjustment has come through employment rather than base pay. <a href="#ref-canaries">[15]</a></li>
+    <li><span class="who">Hosseini Maasoum &amp; Lichtinger (2025)</span> use résumé data on 62 million workers at 285,000 firms (2015–2025). In firms that adopt generative AI, junior employment falls relative to non-adopters while senior employment is largely unchanged. The decline is concentrated in exposed occupations and driven by slower hiring. <a href="#ref-lichtinger2025">[16]</a></li>
+    <li><span class="who">Hui, Reshef &amp; Zhou (2024)</span> find that freelancers in occupations most affected by ChatGPT and image generators lost employment and earnings on an online platform, and that high-quality freelancers were not protected. <a href="#ref-hui2024">[17]</a></li>
+    <li><span class="who">Hampole, Papanikolaou, Schmidt &amp; Seegmiller (2025)</span> measure task-level AI exposure from 2010 to 2023. More-exposed tasks later see lower labor demand, partly offset when exposure is concentrated in a few tasks. <a href="#ref-hampole2025">[18]</a></li>
+    <li><span class="who">Indeed Hiring Lab</span>
+      <ul class="tight">
+        <li><span class="who">Bernard (2025):</span> the share of US tech postings requiring at least 5 years of experience rose from 37% to 42% between Q2 2022 and Q2 2025, and the 2–4-year share fell from 46% to 40%. The shift began in early 2023. <a href="#ref-bernard2025">[19]</a></li>
+        <li><span class="who">Aidala &amp; Puri (2026):</span> senior roles were 69.3% of software-development postings in Q1 2026 and entry-level roles 4.5%. <a href="#ref-aidala2026">[20]</a></li>
+      </ul>
+    </li>
+  </ul>
+  <p class="label">Studies that find small effects, or earlier timing</p>
+  <ul class="lit">
+    <li><span class="who">Humlum &amp; Vestergaard (2025)</span> link Danish adoption surveys to administrative records and estimate precise null effects of AI chatbots on earnings and hours, ruling out effects larger than 2% two years on. The nulls include early-career jobs. <a href="#ref-humlum2025">[21]</a></li>
+    <li><span class="who">Gimbel, Kinder, Kendall &amp; Lee (2025, Yale Budget Lab)</span> find the US occupational mix changing only slightly faster than in past technology waves, a trend that predates generative AI. Exposure, automation and augmentation measures show no relation to employment or unemployment changes. <a href="#ref-gimbel2025">[22]</a></li>
+    <li><span class="who">Chen, Kane, Kozlowski, Kunievsky &amp; Evans (2025)</span> use synthetic difference-in-differences and find earnings <em>increases</em> in highly exposed occupations after ChatGPT, with unemployment unchanged. <a href="#ref-chen2025">[23]</a></li>
+    <li><span class="who">Frank, Javadian Sabet, Simon, Bana &amp; Yu (2026)</span> show in unemployment-insurance records that unemployment risk in AI-exposed occupations began rising in early 2022, months <em>before</em> ChatGPT. Recent graduates' entry into those occupations had been falling since 2021. <a href="#ref-frank2026">[24]</a></li>
+  </ul>
+
+  <h3>2.4 Where this report fits</h3>
+  <p>The studies finding junior effects rely on proprietary payroll or résumé data. This report asks whether the same pattern shows up in <em>public</em> data for software specifically, across postings, employment stocks, age mix and pay. Its CPS test (<a href="#cps">§4.3</a>) is a public-data counterpart to the ADP analysis.</p>
+
+  <h2 id="data"><span class="no">3</span>Data</h2>
+  <p>All sources are public; download scripts and exact URLs are in <code>src/fetch_data.py</code> and <code>data/SOURCES.md</code>.</p>
+  <div class="wide tablewrap">
+    <table class="datatable">
+      <thead><tr><th>Dataset</th><th>Coverage used</th><th>Unit</th><th>Notebook</th></tr></thead>
+      <tbody>
+        <tr><td>Indeed Hiring Lab postings indices, via FRED <a href="#ref-d-indeed">[D1]</a></td><td>Feb 2020 – 4 Sep 2026, daily</td><td>47 occupational categories + all postings</td><td class="mono">02</td></tr>
+        <tr><td>BLS OEWS national estimates <a href="#ref-d-oews">[D2]</a></td><td>May 2019 – May 2025</td><td>~830 detailed SOC occupations</td><td class="mono">03</td></tr>
+        <tr><td>CPS basic monthly microdata <a href="#ref-d-cps">[D3]</a></td><td>Jan 2020 – Aug 2026 (Oct 2025 was never collected)</td><td>3.72M employed person-months</td><td class="mono">05</td></tr>
+        <tr><td>BLS CES and CPS series, via FRED <a href="#ref-d-ces">[D4]</a></td><td>2019 – Aug 2026</td><td>Industry payrolls; unemployment by age</td><td class="mono">01</td></tr>
+        <tr><td>Stack Overflow Developer Survey <a href="#ref-d-so">[D5]</a></td><td>2021 – 2025</td><td>US professional developers, ~4.6k–12.4k/yr</td><td class="mono">04</td></tr>
+        <tr><td>NY Fed, recent college graduates <a href="#ref-d-nyfed">[D6]</a></td><td>1990 – 2026 Q2</td><td>Ages 22–27 with BA+; 74 majors</td><td class="mono">01</td></tr>
+        <tr><td>GPT exposure (Eloundou et al.) <a href="#ref-eloundou2024">[8]</a></td><td>O*NET-SOC 2019</td><td>Occupation exposure scores</td><td class="mono">02, 03</td></tr>
+        <tr><td>AIOE (Felten et al.) <a href="#ref-felten2021">[6]</a></td><td>SOC 2010</td><td>Occupation exposure scores</td><td class="mono">03</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">bls.gov blocks scripted downloads, so the OEWS zip files were retrieved from Internet Archive snapshots of the official URLs and spot-checked against the BLS API. Software developers, May 2025: 1,687,890 employed, median $135,980, matching the API.</p>
+
+  <h2 id="findings"><span class="no">4</span>Findings</h2>
+
+  <h3 id="postings">4.1 Postings: the largest drop of any occupation, starting before ChatGPT</h3>
+  <p>Software-development postings on Indeed peaked at 234 (1 Feb 2020 = 100) on 28 February 2022. They had fallen to 143 by ChatGPT's release and stood at 76 on 4 September 2026; all postings were at 102. <strong>58% of the peak-to-latest decline happened before the release.</strong></p>
+  <p>Measured from September–November 2022, software postings fell 54% by June–August 2026, the most of the 41 occupational categories. All postings fell 32%, and accounting (−53%), medical information, media and scientific R&amp;D (about −50% each) were close behind.</p>
+  <p>A two-way fixed-effects DiD on 47 occupations gives <strong>−0.59 log points</strong> (≈ −44%) for software after December 2022. That is the most negative of all 47 placebo assignments (permutation p = 0.021), and it holds across pre-period windows (−0.54 to −0.59). Placebo "treatments" in March or June 2022, using pre-release data only, find nothing (β = +0.06 and −0.04).</p>
+  <figure class="plate wide half">
+    <div class="frame"><img src="figures/02_indeed_software_vs_all.png" alt="Line chart: Indeed software development postings rise to about 234 in early 2022, fall to about 143 by November 2022 and about 76 by September 2026, while all postings end near 102."></div>
+    <figcaption><b>Fig. 1</b>Indeed job postings index, 1 Feb 2020 = 100, seasonally adjusted. Source: Indeed Hiring Lab via FRED <a href="#ref-d-indeed">[D1]</a>; <code>notebooks/02</code>.</figcaption>
+  </figure>
+  <figure class="plate wide half">
+    <div class="frame"><img src="figures/02_indeed_event_study.png" alt="Event-study chart: software postings relative to other occupations rise to +0.16 in 2022Q1, fall outside the 5th–95th percentile placebo band by 2022Q4, bottom near −0.69 in 2023Q4 and recover to −0.50 by 2026Q3."></div>
+    <figcaption><b>Fig. 2</b>Software postings minus the mean of other occupations, log points, 2022Q3 = 0. The grey band is the 5th–95th percentile of the same statistic for every other occupation. Software leaves the band in 2022Q4, a quarter that is mostly pre-release.</figcaption>
+  </figure>
+  <p>Exposure explains little of the cross-occupation pattern. Across 40 categories mapped to Eloundou et al. scores, a 0.1 increase in exposure goes with a 1.6 pp larger decline (p = 0.09, R² = 0.08); without software, the slope is −1.1 pp (p = 0.25). The Indeed Hiring Lab's own seniority breakdowns (<a href="#ref-bernard2025">Bernard 2025</a>; <a href="#ref-aidala2026">Aidala &amp; Puri 2026</a>) add what the index cannot: the posting mix tilted toward experience from early 2023.</p>
+
+  <h3 id="oews">4.2 Employment and wages: growth, and a compressing distribution</h3>
+  <p>OEWS employment of software developers and QA testers (harmonized across the 2019–2020 hybrid SOC codes) rose from 1.41M (May 2019) to 1.73M (May 2022) to 1.87M (May 2025): +8.3% after 2022, nearly all of it in 2023. Computer programmers kept a decline that long predates LLMs: −34% over 2019–22 and −31% over 2022–25, to 92,000. CES payrolls in Computer Systems Design (<code>CES6054150001</code>) peaked in March 2023 and are 4.9% below that peak.</p>
+  <figure class="plate wide half">
+    <div class="frame"><img src="figures/03_oews_computer_employment.png" alt="Line chart of OEWS employment indexed to May 2022: software developers and QA reach about 108 by 2025; computer programmers fall from about 150 in 2019 to about 69 in 2025."></div>
+    <figcaption><b>Fig. 3</b>OEWS employment, May 2022 = 100. Source: BLS OEWS <a href="#ref-d-oews">[D2]</a>; <code>notebooks/03</code>.</figcaption>
+  </figure>
+  <p>If the 10th wage percentile is a rough proxy for entry-level pay, the occupation-level wage evidence runs the other way from a penalty. From May 2022 to May 2025, software developers' P10 rose 15.7% ($71,280 to $82,460), the median 6.9% and P90 8.4%; P90/P10 fell from 2.78 to 2.60. One caveat cuts against this reading: if fewer juniors are hired, the bottom of the distribution empties and P10 rises mechanically.</p>
+  <p>Across 706 occupations, an event study of log employment on standardized GPT exposure gives −0.6%, −1.3% and −1.7% per SD in 2023–2025 relative to 2022. But exposed occupations had been growing <em>faster</em> before (2019: −2.3% relative to 2022). The post-2022 effect disappears unweighted, and with the Felten et al. AIOE (+0.2%, 0.0%, +0.1%), even though the two measures correlate at 0.85.</p>
+  <figure class="plate wide half">
+    <div class="frame"><img src="figures/03_oews_exposure_event_study_employment.png" alt="Event-study coefficients with 95% intervals: small negative post-2022 employment effects per SD of GPT exposure, and a negative 2019 coefficient indicating a pre-trend."></div>
+    <figcaption><b>Fig. 4</b>Coefficient on exposure × year for log employment, weighted by May 2022 employment, clustered by occupation, 95% CI. Source: OEWS × Eloundou et al. <a href="#ref-eloundou2024">[8]</a>.</figcaption>
+  </figure>
+
+  <h3 id="cps">4.3 Who holds developer jobs: the age mix has not shifted</h3>
+  <p>The sharpest public test of a junior penalty is whether the <em>youngest</em> workers' share of software employment fell relative to other occupations. The CPS provides this for software developers and QA testers (Census codes 1021 + 1022), January 2020 to August 2026.</p>
+  <p>Workers aged 22–25 were <strong>8.14%</strong> of 22–64-year-old developers in January 2021–November 2022, and <strong>8.32%</strong> from January 2023 on. That +0.18 pp change ranks 102nd of 222 large occupations (permutation p ≈ 0.46). An occupation × month fixed-effects regression gives −0.04 pp (SE 0.10).</p>
+  <p>Other computer occupations did lose young workers: database administrators (5.9% to 2.9%), operations research analysts (8.9% to 4.5%) and network administrators (4.4% to 3.2%). Young developers' median weekly earnings relative to 31–40-year-olds rose from 0.69 (2022) to 0.76 (2026).</p>
+  <div class="pair wide">
+    <figure class="plate">
+      <div class="frame"><img src="figures/05_cps_young_share.png" alt="Line chart: share of workers aged 22–25 among software developers moves between about 7.5% and 9.2% from 2020 to 2026, close to the roughly 9% share in other occupations; 2026 is the lowest point at 7.5%."></div>
+      <figcaption><b>Fig. 5</b>Share of employed 22–64-year-olds aged 22–25; shaded area is a naive 95% interval. Source: CPS <a href="#ref-d-cps">[D3]</a>; <code>notebooks/05</code>.</figcaption>
+    </figure>
+    <figure class="plate">
+      <div class="frame"><img src="figures/05_cps_young_share_permutation.png" alt="Strip plot of the change in young share across 222 occupations; software developers sit near zero, in the middle of the distribution."></div>
+      <figcaption><b>Fig. 6</b>log(post / pre young share) for 222 occupations with ≥800 observations per period. Software is highlighted.</figcaption>
+    </figure>
+  </div>
+  <p>The reading to watch is 2026. The young share for January–August 2026 is 7.47%, the lowest in the series and 1.5 pp below its 2022 gap to other occupations. It rests on about 330 young-developer person-months, and CPS households rotate through the sample for 8 of 16 months, so the naive interval shown is too narrow.</p>
+
+  <h3 id="so">4.4 A self-reported pay gap that did widen</h3>
+  <p>The Stack Overflow survey is the only source here with individual experience and pay for developers. Among US professional developers, median pay for those with 0–2 years' experience stayed at $90k from 2022 to 2025, while pay for those with 10+ years rose from $153k to $170k.</p>
+  <p>A junior × post DiD gives <strong>−0.052</strong> (SE 0.017) using years coding professionally (2021–24) and <strong>−0.138</strong> (SE 0.029) using years of work experience (2022–25): a 5–13% relative widening that org-size controls do not change. The one pre-period year shows the gap <em>narrowing</em> into 2022, so this is not an old trend continuing. But the survey is opt-in, its respondent mix shifts every year, and the share of 0–2-year respondents fell from 8.4% to 5.0% (2022–25).</p>
+  <figure class="plate wide half">
+    <div class="frame"><img src="figures/04_so_junior_senior_gap_event_study.png" alt="Event-study: junior minus senior log pay gap relative to 2022 becomes more negative each year after 2022, reaching about −0.21 in 2025 on the work-experience measure."></div>
+    <figcaption><b>Fig. 7</b>Change in the junior (0–2 yrs) vs senior (10+ yrs) log pay gap relative to 2022, 95% CI (HC3). Source: Stack Overflow survey microdata <a href="#ref-d-so">[D5]</a>; <code>notebooks/04</code>.</figcaption>
+  </figure>
+  <p>The same survey shows juniors adopted AI tools first: 50% of 0–2-year developers used them in 2023, against 37% of those with 10+ years. By 2025 adoption had converged at 78% and 76%.</p>
+
+  <h3 id="grads">4.5 Recent graduates: worse off, and not only since 2022</h3>
+  <p>From 2000 to 2018, recent college graduates (22–27) were unemployed less often than all workers. The gap turned positive in 2019 (+0.3 pp), was +0.5 pp in 2022, and reached +1.3 pp in 2025 and +1.5 pp in 2026 H1. Computer engineering (7.8%) and computer science (7.0%) graduates rank 2nd and 4th of 74 majors for unemployment in the latest NY Fed release. In the broad CPS, the gap between 20–24- and 25–54-year-olds' unemployment is within its 2015–19 range.</p>
+  <figure class="plate wide half">
+    <div class="frame"><img src="figures/01_nyfed_recent_grads_unemployment.png" alt="Line chart from 2010: recent graduates' unemployment falls below all workers' until about 2018, then rises above it, reaching about 5.6% in 2026 against about 4.1% for all workers."></div>
+    <figcaption><b>Fig. 8</b>Unemployment rate, three-month moving average. Source: Federal Reserve Bank of New York <a href="#ref-d-nyfed">[D6]</a>; <code>notebooks/01</code>.</figcaption>
+  </figure>
+
+  <h2 id="reconcile"><span class="no">5</span>Reconciling the evidence</h2>
+  <p><strong>Flows move before stocks.</strong> Fewer entry-level postings and hires reduce the junior share of employment only as cohorts age through. The posting and hiring evidence (Indeed; <a href="#ref-canaries">Brynjolfsson et al.</a>; <a href="#ref-lichtinger2025">Hosseini Maasoum &amp; Lichtinger</a>) is the leading edge; the CPS and OEWS stock measures may simply not have turned yet, and 2026 may be the first sign.</p>
+  <p><strong>Composition can hide or fake a penalty.</strong> In OEWS, fewer junior hires raise P10 mechanically. In the Stack Overflow survey, if the juniors still employed skew toward lower-paying firms, the measured gap widens without any individual's pay changing. The two pay results point in opposite directions for this reason.</p>
+  <p><strong>Timing is confounded.</strong> Three candidate causes overlap the release:</p>
+  <ul class="tight">
+    <li>The Fed began raising rates in March 2022, reaching 5.33% in August 2023.</li>
+    <li>Software postings were unwinding from a boom that peaked in February 2022.</li>
+    <li>From 2022, Section 174 required domestic software-development costs to be capitalized and amortized over five years; legislation in July 2025 restored immediate expensing for domestic R&amp;E (<a href="#ref-section174">Morgan Lewis 2025</a>). The 2026 partial rebound in software postings coincides with that change, as well as with AI-titled roles.</li>
+  </ul>
+  <p>These results line up with <a href="#ref-frank2026">Frank et al.</a>, who date the deterioration of exposed jobs to early 2022, and with <a href="#ref-gimbel2025">Gimbel et al.</a> and <a href="#ref-humlum2025">Humlum &amp; Vestergaard</a> on the absence of broad employment effects.</p>
+  <p><strong>Why CPS and ADP may differ.</strong> Payroll records and household self-reports measure occupation and employment differently. CPS cells for 22–25-year-old developers are about 40 people a month, and the CPS counts everyone who reports the occupation, at any employer. A 19% relative gap across <em>all</em> exposed occupations (<a href="#ref-canaries">Brynjolfsson et al.</a>) is compatible with no detectable change for one occupation in a much smaller sample.</p>
+
+  <h2 id="limits"><span class="no">6</span>Limitations and next steps</h2>
+  <ul class="tight">
+    <li>No dataset here observes seniority in postings directly. Indeed's seniority figures come from its published analyses, not the public index.</li>
+    <li>CPS software samples are small and rotating. Adding 2015–2019 (fixed-width files, 2010 occupation codes) would give a longer pre-period and a sharper test.</li>
+    <li>OEWS has no experience variable, and its three-year panel structure smooths and delays changes.</li>
+    <li>The Stack Overflow survey is unweighted and opt-in. Reweighting to CPS age and education margins would test whether its pay-gap result survives.</li>
+    <li>The Indeed category-to-SOC crosswalk behind the exposure regression is the author's own and coarse.</li>
+    <li>Better tests would use hiring flows by age and industry: Census LEHD Quarterly Workforce Indicators for NAICS 5415/5112, or licensed posting data with seniority fields.</li>
+  </ul>
+
+  <h2 id="changes"><span class="no">7</span>What changed in this project</h2>
+  <p>The earlier notebook generated 13,764 "calibrated" job postings with a random-number generator, and the paper draft reported that simulation's output as findings: a "17.8% junior wage penalty" and a "9.27 pp" fall in junior posting share.</p>
+  <ul class="tight">
+    <li>The simulation, its figures and the analysis script were deleted.</li>
+    <li>The draft was moved to <code>paper/archive_superseded/</code> with a do-not-cite banner.</li>
+    <li>Broken downloads (HTML error pages saved as CSVs, git-LFS pointers) were removed.</li>
+    <li>Bibliography entries that could not be verified were dropped.</li>
+  </ul>
+  <p>None of the real sources above reproduces the draft's numbers.</p>
+
+  <h2 id="refs"><span class="no">8</span>References</h2>
+  <p class="refhead">Literature</p>
+  <ol class="refs">
+    <li id="ref-autor2003">[1] Autor, D. H., Levy, F., &amp; Murnane, R. J. (2003). The skill content of recent technological change: An empirical exploration. <em>Quarterly Journal of Economics</em>, 118(4), 1279–1333. <a href="https://academic.oup.com/qje/article-abstract/118/4/1279/1925105">academic.oup.com</a></li>
+    <li id="ref-acemoglu2011">[2] Acemoglu, D., &amp; Autor, D. (2011). Skills, tasks and technologies: Implications for employment and earnings. In O. Ashenfelter &amp; D. Card (Eds.), <em>Handbook of Labor Economics</em> (Vol. 4B, pp. 1043–1171). Elsevier. <a href="https://economics.mit.edu/sites/default/files/publications/Skills,%20Tasks%20and%20Technologies%20-%20Implications%20for%20.pdf">economics.mit.edu</a></li>
+    <li id="ref-acemoglu2022">[3] Acemoglu, D., &amp; Restrepo, P. (2022). Tasks, automation, and the rise in U.S. wage inequality. <em>Econometrica</em>, 90(5), 1973–2016. <a href="https://doi.org/10.3982/ECTA19815">doi:10.3982/ECTA19815</a></li>
+    <li id="ref-acemoglu2024">[4] Acemoglu, D., &amp; Restrepo, P. (2024). A task-based approach to inequality. <em>Oxford Open Economics</em>, 3(Suppl. 1), i906–i929. <a href="https://doi.org/10.1093/ooec/odad082">doi:10.1093/ooec/odad082</a></li>
+    <li id="ref-webb2019">[5] Webb, M. (2019). The impact of artificial intelligence on the labor market. SSRN Working Paper 3482150. <a href="https://ssrn.com/abstract=3482150">ssrn.com</a></li>
+    <li id="ref-felten2021">[6] Felten, E. W., Raj, M., &amp; Seamans, R. (2021). Occupational, industry, and geographic exposure to artificial intelligence: A novel dataset and its potential uses. <em>Strategic Management Journal</em>, 42(12), 2195–2217. <a href="https://doi.org/10.1002/smj.3286">doi:10.1002/smj.3286</a> · data: <a href="https://github.com/AIOE-Data/AIOE">github.com/AIOE-Data/AIOE</a></li>
+    <li id="ref-felten2023">[7] Felten, E. W., Raj, M., &amp; Seamans, R. (2023). How will language modelers like ChatGPT affect occupations and industries? arXiv:2303.01157. <a href="https://arxiv.org/abs/2303.01157">arxiv.org</a></li>
+    <li id="ref-eloundou2024">[8] Eloundou, T., Manning, S., Mishkin, P., &amp; Rock, D. (2024). GPTs are GPTs: Labor market impact potential of LLMs. <em>Science</em>, 384(6702), 1306–1308. <a href="https://www.science.org/doi/10.1126/science.adj0998">doi:10.1126/science.adj0998</a> · data: <a href="https://github.com/openai/GPTs-are-GPTs">github.com/openai/GPTs-are-GPTs</a></li>
+    <li id="ref-handa2025">[9] Handa, K., Tamkin, A., McCain, M., Huang, S., Durmus, E., et al. (2025). Which economic tasks are performed with AI? Evidence from millions of Claude conversations. arXiv:2503.04761. <a href="https://arxiv.org/abs/2503.04761">arxiv.org</a></li>
+    <li id="ref-peng2023">[10] Peng, S., Kalliamvakou, E., Cihon, P., &amp; Demirer, M. (2023). The impact of AI on developer productivity: Evidence from GitHub Copilot. arXiv:2302.06590. <a href="https://arxiv.org/abs/2302.06590">arxiv.org</a></li>
+    <li id="ref-cui2025">[11] Cui, Z., Demirer, M., Jaffe, S., Musolff, L., Peng, S., &amp; Salz, T. (2025). The effects of generative AI on high-skilled work: Evidence from three field experiments with software developers. <em>Management Science</em>. <a href="https://pubsonline.informs.org/doi/10.1287/mnsc.2025.00535">doi:10.1287/mnsc.2025.00535</a></li>
+    <li id="ref-brynjolfsson2025gen">[12] Brynjolfsson, E., Li, D., &amp; Raymond, L. R. (2025). Generative AI at work. <em>Quarterly Journal of Economics</em>, 140(2), 889–942. <a href="https://academic.oup.com/qje/article/140/2/889/7990658">academic.oup.com</a> · <a href="https://www.nber.org/papers/w31161">NBER w31161</a></li>
+    <li id="ref-noy2023">[13] Noy, S., &amp; Zhang, W. (2023). Experimental evidence on the productivity effects of generative artificial intelligence. <em>Science</em>, 381, 187–192. <a href="https://www.science.org/doi/10.1126/science.adh2586">doi:10.1126/science.adh2586</a></li>
+    <li id="ref-dellacqua2023">[14] Dell'Acqua, F., McFowland III, E., Mollick, E. R., Lifshitz-Assaf, H., Kellogg, K. C., Rajendran, S., Krayer, L., Candelon, F., &amp; Lakhani, K. R. (2023). Navigating the jagged technological frontier. Harvard Business School Working Paper 24-013; <em>Organization Science</em>. <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4573321">ssrn.com</a></li>
+    <li id="ref-canaries">[15] Brynjolfsson, E., Chandar, B., &amp; Chen, R. (2025, rev. Aug. 12, 2026). Canaries in the coal mine? Six facts about the recent employment effects of artificial intelligence. Stanford Digital Economy Lab. <a href="https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/">digitaleconomy.stanford.edu</a></li>
+    <li id="ref-lichtinger2025">[16] Hosseini Maasoum, S. M., &amp; Lichtinger, G. (2025). Generative AI as seniority-biased technological change: Evidence from U.S. résumé and job posting data. SSRN Working Paper 5425555. <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5425555">ssrn.com</a></li>
+    <li id="ref-hui2024">[17] Hui, X., Reshef, O., &amp; Zhou, L. (2024). The short-term effects of generative artificial intelligence on employment: Evidence from an online labor market. <em>Organization Science</em>, 35(6), 1977–1989. <a href="https://pubsonline.informs.org/doi/abs/10.1287/orsc.2023.18441">doi:10.1287/orsc.2023.18441</a></li>
+    <li id="ref-hampole2025">[18] Hampole, M., Papanikolaou, D., Schmidt, L. D. W., &amp; Seegmiller, B. (2025). Artificial intelligence and the labor market. NBER Working Paper 33509. <a href="https://www.nber.org/papers/w33509">nber.org</a></li>
+    <li id="ref-bernard2025">[19] Bernard, B. (2025, July 30). Experience requirements have tightened amid the tech hiring freeze. Indeed Hiring Lab. <a href="https://hiringlab.indeed.com/2025/07/30/experience-requirements-have-tightened-amid-the-tech-hiring-freeze/">hiringlab.indeed.com</a></li>
+    <li id="ref-aidala2026">[20] Aidala, F., &amp; Puri, S. (2026, July 23). The labor market is tilting toward seniority. Indeed Hiring Lab. <a href="https://hiringlab.indeed.com/2026/07/23/the-labor-market-is-tilting-toward-seniority/">hiringlab.indeed.com</a></li>
+    <li id="ref-humlum2025">[21] Humlum, A., &amp; Vestergaard, E. (2025). Large language models, small labor market effects. NBER Working Paper 33777. <a href="https://www.nber.org/papers/w33777">nber.org</a></li>
+    <li id="ref-gimbel2025">[22] Gimbel, M., Kinder, M., Kendall, J., &amp; Lee, M. (2025, October 1). Evaluating the impact of AI on the labor market: Current state of affairs. The Budget Lab at Yale. <a href="https://budgetlab.yale.edu/research/evaluating-impact-ai-labor-market-current-state-affairs">budgetlab.yale.edu</a></li>
+    <li id="ref-chen2025">[23] Chen, D., Kane, C., Kozlowski, A., Kunievsky, N., &amp; Evans, J. A. (2025). The (short-term) effects of large language models on unemployment and earnings. arXiv:2509.15510. <a href="https://arxiv.org/abs/2509.15510">arxiv.org</a></li>
+    <li id="ref-frank2026">[24] Frank, M. R., Javadian Sabet, A., Simon, L., Bana, S. H., &amp; Yu, R. (2026). AI-exposed jobs deteriorated before ChatGPT. arXiv:2601.02554. <a href="https://arxiv.org/abs/2601.02554">arxiv.org</a></li>
+    <li id="ref-section174">[25] Morgan, Lewis &amp; Bockius LLP (2025, July). New Section 174A restores domestic R&amp;E deductibility, but other changes bring mixed results. <a href="https://www.morganlewis.com/pubs/2025/07/new-section-174a-restores-domestic-r-and-e-deductibility-but-other-changes-bring-mixed-results">morganlewis.com</a></li>
+  </ol>
+  <p class="refhead">Data</p>
+  <ol class="refs">
+    <li id="ref-d-indeed">[D1] Indeed Hiring Lab. Job Postings on Indeed in the United States, by occupational category (IHLIDXUS, IHLIDXUSTP*). Retrieved from FRED, Federal Reserve Bank of St. Louis, 13 Sep 2026. <a href="https://fred.stlouisfed.org/series/IHLIDXUSTPSOFTDEVE">fred.stlouisfed.org</a></li>
+    <li id="ref-d-oews">[D2] U.S. Bureau of Labor Statistics. Occupational Employment and Wage Statistics, national estimates, May 2019–May 2025. <a href="https://www.bls.gov/oes/tables.htm">bls.gov/oes</a></li>
+    <li id="ref-d-cps">[D3] U.S. Census Bureau. Current Population Survey basic monthly public-use microdata, Jan 2020–Aug 2026. <a href="https://www2.census.gov/programs-surveys/cps/datasets/">www2.census.gov</a>. On October 2025, see BLS, <a href="https://www.bls.gov/cps/methods/2025-federal-government-shutdown-impact-cps.htm">Impact of the 2025 federal government shutdown on the CPS</a>.</li>
+    <li id="ref-d-ces">[D4] U.S. Bureau of Labor Statistics. Current Employment Statistics and Current Population Survey series (CES6054150001, CES5051800001, PAYEMS, LNS14000036, LNS14000060, and others). Retrieved from FRED, 13 Sep 2026.</li>
+    <li id="ref-d-so">[D5] Stack Overflow. Annual Developer Survey, 2021–2025 (Open Database License). <a href="https://survey.stackoverflow.co/">survey.stackoverflow.co</a> · <a href="https://github.com/StackExchange/Survey">github.com/StackExchange/Survey</a></li>
+    <li id="ref-d-nyfed">[D6] Federal Reserve Bank of New York. The Labor Market for Recent College Graduates (release of 6 Aug 2026). <a href="https://www.newyorkfed.org/research/college-labor-market">newyorkfed.org</a></li>
+  </ol>
+
+  <footer>
+    <p>Reproduce: <code>python src/fetch_data.py</code>, then execute <code>notebooks/01–05</code>. Every number in this report is printed in a notebook cell.</p>
+  </footer>
+</article>

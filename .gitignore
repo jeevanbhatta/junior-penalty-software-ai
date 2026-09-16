@@ -1,0 +1,17 @@
+# secrets
+.env
+
+# environments and caches
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+
+# the paper (LaTeX, PDF, venue notes) is kept outside version control
+paper/
+
+# third-party PDF of a published article
+literature/
+
+# raw downloads, ~674 MB; recreate with: python src/fetch_data.py
+data/raw/
