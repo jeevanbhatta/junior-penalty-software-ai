@@ -51,15 +51,3 @@ cd notebooks && for n in 0*.ipynb; do ../.venv/bin/jupyter nbconvert --to notebo
 | NY Fed recent grads | Recent graduates' unemployment gap over all workers rose from +0.5 pp (2022) to +1.5 pp (2026). CS and computer engineering majors rank 4th and 2nd of 74. |
 
 **Bottom line.** Hiring demand for software work collapsed and tilted toward experience. But much of the collapse predates ChatGPT and coincides with rate hikes. Representative data through mid-2026 shows no junior *employment* or *wage* penalty among employed developers yet.
-
-## What changed on 2026-09-13
-
-- **Deleted (synthetic):** `tech_job_replacement_analysis.ipynb`, which simulated 13,764 postings with `np.random`; its six PNGs; and `src/analysis_pipeline.py`.
-- **Deleted (broken downloads):** HTML error pages saved as `.csv`/`.txt` (BLS "Access Denied", FRED bot pages, a Layoffs.fyi 404); git-LFS pointer files named `results_*.csv`; and 404 pages saved as JSON.
-- **Deleted:** empty `Job/` and `Replacement/` scaffolding, and `src/data_sources.py`, which had mislabeled series IDs (replaced by `src/fetch_data.py`).
-- **Archived:** `paper_draft.md` and `.tex` moved to `paper/archive_superseded/` with a warning banner. Its claimed "17.8% junior wage penalty" and "9.27 pp drop in junior posting share" came from the simulation and are not supported by any real source here.
-- **References:** unverifiable bibliography entries were dropped. For example, no record of "Bessen, Impink & Seamans (2023), *The role of AI in commercial innovation and labor demand*" could be found.
-
-## Verification
-
-Every number in the paper and report was recomputed from source data by an independent script (77/79 checks matched exactly; the three discrepancies found were corrected). Every bibliography entry was checked against Crossref, the arXiv API, or the publisher's own page: all DOIs and arXiv IDs resolve with matching titles, and no link 404s.
