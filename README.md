@@ -2,6 +2,8 @@
 
 Replication package: https://github.com/jeevanbhatta/junior-penalty-software-ai
 
+Paper: *Is There a Junior Penalty? Generative AI and Early-Career Software Developers in U.S. Public Data* — SSRN working paper, [doi:10.2139/ssrn.7469778](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7469778)
+
 **Research question.** Since ChatGPT's release (30 Nov 2022), has generative AI reduced demand for *junior* software developers relative to seniors, in postings, employment, or pay? This is the "junior penalty" hypothesis, framed with the task-based model of Acemoglu & Restrepo (2022).
 
 **Status (2026-09-13).** Every result in this repository comes from public data (see [data/SOURCES.md](data/SOURCES.md)). The earlier notebook generated a *synthetic* "calibrated" job-postings panel with `np.random`. That notebook, its six figures, and the numbers in the old paper draft have been removed or archived; see "What changed" below.
