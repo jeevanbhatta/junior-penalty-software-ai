@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+title: "Replication package: Is There a Junior Penalty? Generative AI and Early-Career Software Developers in U.S. Public Data"
+message: "If you use this software or data pipeline, please cite the paper below."
+type: software
+authors:
+  - family-names: Bhatta
+    given-names: Jeevan
+repository-code: "https://github.com/jeevanbhatta/junior-penalty-software-ai"
+license: MIT
+preferred-citation:
+  type: article
+  title: "Is There a Junior Penalty? Generative AI and Early-Career Software Developers in U.S. Public Data"
+  authors:
+    - family-names: Bhatta
+      given-names: Jeevan
+  year: 2026
+  doi: 10.2139/ssrn.7469778
+  notes: "SSRN working paper"
+keywords:
+  - generative AI
+  - software developers
+  - early-career workers
+  - job postings
+  - labor economics
